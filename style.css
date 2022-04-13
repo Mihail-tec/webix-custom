@@ -1,0 +1,28 @@
+.state_0.webix_el_button button {
+  background: green;
+  color: black;
+}
+
+.state_1.webix_el_button button {
+  background: yellow;
+  color: black;
+}
+
+.state_2.webix_el_button button {
+  background: red;
+  color: black;
+}
+.state_0.webix_el_button button:hover {
+  background: green;
+  color: black;
+}
+
+.state_1.webix_el_button button:hover {
+  background: yellow;
+  color: black;
+}
+
+.state_2.webix_el_button button:hover {
+  background: red;
+  color: black;
+}
