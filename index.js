@@ -4,9 +4,13 @@ webix.ready(function () {
       name: "mybutton",
       $cssName: "button",
       $init: function (config) {
-        console.log(config);
-        const state = config.value || 0;
-        config.value = config.states[state];
+        const state = 0;
+        if (!config || !config.states) {
+          webix.alert("you don't have a state");
+        } else {
+          config.value = config.states[state] ?? "";
+        }
+
         webix.html.addCss(this.$view, `state_${state}`);
 
         this.attachEvent("onItemClick", () => {
@@ -17,6 +21,7 @@ webix.ready(function () {
           if (state > 2) {
             state = 0;
           }
+
           this.config.state = state;
           this.config.label = this.config.states[state];
 
@@ -34,7 +39,6 @@ webix.ready(function () {
     {
       name: "formControl",
       $init: function (config) {
-        console.log(config);
         const cancel =
           config?.cancelAction ??
           function () {
@@ -44,9 +48,17 @@ webix.ready(function () {
         const save =
           config?.saveAction ??
           function () {
-            webix.message("save");
-            $$("formControl").clear();
+            if ($$("formControl").isDirty()) {
+              const formInitValues = $$("formControl").getValues();
+              for (key in formInitValues) {
+                console.log(formInitValues[key]);
+                $$("formControl").clear();
+              }
+
+              webix.message("save");
+            }
           };
+
         const buttonForm = {
           cols: [
             {
@@ -71,7 +83,6 @@ webix.ready(function () {
         const fields = config.fields.map((el) => {
           return { view: "text", name: el, label: el };
         });
-        console.log(fields);
         config.elements = [...fields, buttonForm];
       },
     },
@@ -126,7 +137,11 @@ const form = {
   fields: ["one", "two", "three"],
   saveAction: () => {
     webix.message("Button save work");
-    $$("formControl").clear();
+    const formValues = $$("formControl").getValues();
+    for (key in formValues) {
+      console.log(formValues[key]);
+      $$("formControl").clear();
+    }
   },
   cancelAction: () => {
     webix.message("Button cancel work");
