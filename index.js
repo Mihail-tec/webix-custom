@@ -51,10 +51,11 @@ webix.ready(function () {
             if ($$("formControl").isDirty()) {
               const formInitValues = $$("formControl").getValues();
               for (key in formInitValues) {
-                console.log(formInitValues[key]);
-                $$("formControl").clear();
+                if (formInitValues.hasOwnProperty(key)) {
+                  console.log(formInitValues[key]);
+                  $$("formControl").clear();
+                }
               }
-
               webix.message("save");
             }
           };
@@ -138,10 +139,10 @@ const form = {
   saveAction: () => {
     webix.message("Button save work");
     const formValues = $$("formControl").getValues();
-    for (key in formValues) {
-      console.log(formValues[key]);
+    Object.values(formValues).forEach((value) => {
+      console.log(value);
       $$("formControl").clear();
-    }
+    });
   },
   cancelAction: () => {
     webix.message("Button cancel work");
