@@ -81,10 +81,15 @@ webix.ready(function () {
           ],
         };
 
-        const fields = config.fields.map((el) => {
-          return { view: "text", name: el, label: el };
-        });
-        config.elements = [...fields, buttonForm];
+        if (Array.isArray(config.fields)) {
+          const fields = config.fields.map((el) => {
+            return { view: "text", name: el, label: el };
+          });
+          config.elements = [...fields, buttonForm];
+        } else {
+          webix.alert("you don't have a array");
+        }
+        
       },
     },
     webix.ui.form
